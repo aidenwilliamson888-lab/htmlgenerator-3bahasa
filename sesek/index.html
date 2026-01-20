@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- DYNAMIC SEO -->
+  <title id="seoTitle">Download PDF Book</title>
+  <meta name="description" id="seoDescription" content="" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="book" />
+  <meta property="og:title" id="ogTitle" content="" />
+  <meta property="og:description" id="ogDescription" content="" />
+  <meta property="og:image" id="ogImage" content="" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" id="twTitle" content="" />
+  <meta name="twitter:description" id="twDescription" content="" />
+  <meta name="twitter:image" id="twImage" content="" />
+
+  <!-- Tailwind CSS (generator only) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" id="schema"></script>
+</head>
+<body class="bg-white text-slate-800">
+
+<!-- GENERATOR PANEL -->
+<section class="max-w-5xl mx-auto p-6 bg-slate-50 border-b">
+  <h1 class="text-2xl font-bold mb-4">PDF Book SEO Page Generator</h1>
+  <div class="grid md:grid-cols-2 gap-4">
+    <select id="lang" class="p-3 border rounded">
+      <option value="en">English</option>
+      <option value="es">Spanish</option>
+      <option value="pt">Portuguese</option>
+    </select>
+    <input id="title" placeholder="Book Title" class="p-3 border rounded" />
+    <input id="author" placeholder="Author" class="p-3 border rounded" />
+    <input id="cover" placeholder="Cover Image URL" class="p-3 border rounded" />
+    <input id="pdf" placeholder="PDF Download URL" class="p-3 border rounded" />
+  </div>
+  <div class="flex gap-4 mt-4">
+    <button onclick="generate()" class="px-6 py-3 bg-blue-600 text-white rounded font-bold">Generate Page</button>
+    <button onclick="copyHTML()" class="px-6 py-3 bg-slate-800 text-white rounded font-bold">Copy HTML</button>
+  </div>
+</section>
+
+<!-- OUTPUT PAGE -->
+<main id="output"></main>
+
+<script>
+// ELEMENT REFERENCES
+const langEl = document.getElementById('lang');
+const titleEl = document.getElementById('title');
+const authorEl = document.getElementById('author');
+const coverEl = document.getElementById('cover');
+const pdfEl = document.getElementById('pdf');
+const output = document.getElementById('output');
+const ogTitle = document.getElementById('ogTitle');
+const ogDescription = document.getElementById('ogDescription');
+const ogImage = document.getElementById('ogImage');
+const twTitle = document.getElementById('twTitle');
+const twDescription = document.getElementById('twDescription');
+const twImage = document.getElementById('twImage');
+const schema = document.getElementById('schema');
+
+// LIVE PREVIEW
+['lang','title','author','cover','pdf'].forEach(id => {
+  document.getElementById(id).addEventListener('input', generate);
+});
+
+function generate() {
+  const lang = langEl.value;
+  const title = titleEl.value || 'Book Title';
+  const author = authorEl.value || 'Author Name';
+  const cover = coverEl.value || '';
+  const pdf = pdfEl.value || '#';
+
+  const TEXT = {
+    en: {
+      h1: `Download ${title} PDF`,
+      desc: `Download ${title} PDF by ${author}. Full book, free access, instant download.`,
+      btn: 'Download PDF',
+      faq: 'Frequently Asked Questions',
+      reviewsTitle: 'Reader Reviews',
+      seo: `<p><strong>${title}</strong> by ${author} is one of the most searched PDF books online.</p>`,
+      reviews: [
+        { text: 'An excellent read from beginning to end. The PDF format works perfectly on all devices.', name: 'Verified Reader' },
+        { text: 'Well written, easy to download, and very informative. Highly recommended.', name: 'Book Enthusiast' }
+      ],
+      faqs: [
+        { q: `Is ${title} the full book PDF?`, a: `Yes, this is the complete PDF version of ${title}.` },
+        { q: 'Is the PDF free to download?', a: 'Yes, the PDF is available for free access.' },
+        { q: `Can I read ${title} on mobile devices?`, a: 'Yes, it works on phones, tablets, and desktops.' }
+      ]
+    },
+    es: {
+      h1: `Descargar ${title} PDF`,
+      desc: `Descarga ${title} en PDF por ${author}. Libro completo.`,
+      btn: 'Descargar PDF',
+      faq: 'Preguntas Frecuentes',
+      reviewsTitle: 'Opiniones de Lectores',
+      seo: `<p><strong>${title}</strong> de ${author} es uno de los libros PDF más buscados.</p>`,
+      reviews: [
+        { text: 'Una lectura excelente de principio a fin. El PDF es muy cómodo.', name: 'Lector Verificado' },
+        { text: 'Muy bien escrito y fácil de descargar. Totalmente recomendado.', name: 'Amante de los Libros' }
+      ],
+      faqs: [
+        { q: `¿${title} es el libro completo en PDF?`, a: 'Sí, es el libro completo.' },
+        { q: '¿La descarga es gratuita?', a: 'Sí, el acceso es gratuito.' },
+        { q: '¿Funciona en el móvil?', a: 'Sí, es compatible con todos los dispositivos.' }
+      ]
+    },
+    pt: {
+      h1: `Baixar ${title} PDF`,
+      desc: `Baixe ${title} em PDF por ${author}. Livro completo.`,
+      btn: 'Baixar PDF',
+      faq: 'Perguntas Frequentes',
+      reviewsTitle: 'Avaliações dos Leitores',
+      seo: `<p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados.</p>`,
+      reviews: [
+        { text: 'Leitura excelente do começo ao fim. O PDF funciona muito bem.', name: 'Leitor Verificado' },
+        { text: 'Bem escrito, fácil de baixar e muito útil. Recomendo.', name: 'Entusiasta de Livros' }
+      ],
+      faqs: [
+        { q: `${title} é o livro completo em PDF?`, a: 'Sim, é o livro completo.' },
+        { q: 'O download é gratuito?', a: 'Sim, o acesso é gratuito.' },
+        { q: 'Funciona no celular?', a: 'Sim, funciona em todos os dispositivos.' }
+      ]
+    }
+  }[lang];
+
+  // SEO TAGS
+  document.getElementById('seoTitle').textContent = `${TEXT.h1} – ${author}`;
+  document.getElementById('seoDescription').content = TEXT.desc;
+  ogTitle.content = TEXT.h1;
+  ogDescription.content = TEXT.desc;
+  ogImage.content = cover;
+  twTitle.content = TEXT.h1;
+  twDescription.content = TEXT.desc;
+  twImage.content = cover;
+
+  // SCHEMA (BOOK)
+  schema.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Book',
+    name: title,
+    author: { '@type': 'Person', name: author },
+    image: cover,
+    bookFormat: 'EBook',
+    inLanguage: lang
+  });
+
+  // OUTPUT (PRODUCTION DESIGN)
+  output.innerHTML = `
+    <section class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-fuchsia-600 text-white">
+      <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,white,transparent_60%)]"></div>
+      <div class="relative max-w-6xl mx-auto px-6 py-24 text-center">
+        ${cover ? `
+          <img src="${cover}" alt="${title} cover" class="mx-auto w-64 md:w-72 shadow-2xl rounded-2xl mb-4 ring-4 ring-white/20" />
+          <div class="flex justify-center mb-6">
+            <div class="text-yellow-300 text-xl">★★★★★</div>
+          </div>
+        ` : ''}
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">${TEXT.h1}</h1>
+        <p class="max-w-2xl mx-auto text-lg md:text-xl text-white/90 mb-10">${TEXT.desc}</p>
+        <a href="${pdf}" class="inline-flex items-center justify-center px-12 py-4 bg-white text-indigo-700 text-lg font-bold rounded-2xl shadow-lg hover:scale-105 transition">
+          ${TEXT.btn}
+        </a>
+      </div>
+    </section>
+
+    <section class="py-20 bg-white">
+      <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-800">${TEXT.reviewsTitle}</h2>
+        <div class="flex items-center gap-3 mb-10">
+          <div class="text-yellow-400 text-2xl">★★★★★</div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          ${TEXT.reviews.map(r => `
+            <div class="bg-slate-50 rounded-2xl p-6 shadow-sm border">
+              <p class="text-slate-700 italic mb-4">“${r.text}”</p>
+              <p class="font-semibold text-slate-900">— ${r.name}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-slate-50">
+      <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-10 text-slate-800">${TEXT.faq}</h2>
+        <div class="space-y-6">
+          ${TEXT.faqs.map(f => `
+            <div class="bg-white rounded-2xl p-6 shadow-sm border hover:shadow-md transition">
+              <h3 class="font-semibold text-lg text-slate-900">${f.q}</h3>
+              <p class="text-slate-600 mt-3 leading-relaxed">${f.a}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-slate-900 text-slate-400">
+      <div class="max-w-6xl mx-auto px-6 py-10 text-center">
+        <p class="text-sm">© ${new Date().getFullYear()} PDF Book Download. Informational page.</p>
+      </div>
+    </footer>
+  `;
+}
+
+function copyHTML() {
+  const productionHTML = `<!DOCTYPE html>
+<html lang="${langEl.value}">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>${document.getElementById('seoTitle').textContent}</title>
+<meta name="description" content="${document.getElementById('seoDescription').content}" />
+<meta property="og:type" content="book" />
+<meta property="og:title" content="${ogTitle.content}" />
+<meta property="og:description" content="${ogDescription.content}" />
+<meta property="og:image" content="${ogImage.content}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="${twTitle.content}" />
+<meta name="twitter:description" content="${twDescription.content}" />
+<meta name="twitter:image" content="${twImage.content}" />
+<script src="https://cdn.tailwindcss.com"><\/script>
+<script type="application/ld+json">${schema.textContent}<\/script>
+</head>
+<body class="bg-white text-slate-800">
+${output.innerHTML}
+</body>
+</html>`;
+
+  navigator.clipboard.writeText(productionHTML).then(() => alert('Production HTML copied'));
+}
+
+// INITIAL RENDER
+generate();
+</script>
+
+</body>
+</html>
