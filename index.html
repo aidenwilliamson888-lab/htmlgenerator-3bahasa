@@ -85,19 +85,37 @@ function generate() {
       h1: `Download ${title} PDF`,
       desc: `Download ${title} PDF by ${author}. Full book, free access, instant download.`,
       btn: 'Download PDF',
-      seo: `<p><strong>${title}</strong> by ${author} is one of the most searched PDF books online.</p>`
+      faq: 'Frequently Asked Questions',
+      seo: `<p><strong>${title}</strong> by ${author} is one of the most searched PDF books online.</p>`,
+      faqs: [
+        { q: `Is ${title} the full book PDF?`, a: `Yes, this is the complete PDF version of ${title}.` },
+        { q: `Is the PDF free to download?`, a: `Yes, the PDF is available for free access.` },
+        { q: `Can I read ${title} on mobile devices?`, a: `Yes, the PDF works on phones, tablets, and desktops.` }
+      ]
     },
     es: {
       h1: `Descargar ${title} PDF`,
       desc: `Descarga ${title} en PDF por ${author}. Libro completo.`,
       btn: 'Descargar PDF',
-      seo: `<p><strong>${title}</strong> de ${author} es uno de los libros PDF más buscados.</p>`
+      faq: 'Preguntas Frecuentes',
+      seo: `<p><strong>${title}</strong> de ${author} es uno de los libros PDF más buscados.</p>`,
+      faqs: [
+        { q: `¿${title} es el libro completo en PDF?`, a: `Sí, es el libro completo.` },
+        { q: `¿La descarga es gratuita?`, a: `Sí, el acceso es gratuito.` },
+        { q: `¿Funciona en móvil?`, a: `Sí, es compatible con todos los dispositivos.` }
+      ]
     },
     pt: {
       h1: `Baixar ${title} PDF`,
       desc: `Baixe ${title} em PDF por ${author}. Livro completo.`,
       btn: 'Baixar PDF',
-      seo: `<p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados.</p>`
+      faq: 'Perguntas Frequentes',
+      seo: `<p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados.</p>`,
+      faqs: [
+        { q: `${title} é o livro completo em PDF?`, a: `Sim, é o livro completo.` },
+        { q: `O download é gratuito?`, a: `Sim, o acesso é gratuito.` },
+        { q: `Funciona no celular?`, a: `Sim, funciona em todos os dispositivos.` }
+      ]
     }
   }[lang];
 
@@ -122,15 +140,29 @@ function generate() {
     inLanguage: lang
   });
 
-  // OUTPUT
+  // OUTPUT (PRODUCTION DESIGN)
   output.innerHTML = `
-    <section class="py-20 text-center">
-      <h1 class="text-4xl font-bold">${TEXT.h1}</h1>
-      <p class="mt-4">${TEXT.desc}</p>
-      <a href="${pdf}" class="inline-block mt-6 px-6 py-3 bg-blue-600 text-white rounded">${TEXT.btn}</a>
+    <section class="py-20 bg-gradient-to-b from-slate-50 to-white text-center">
+      ${cover ? `<img src="${cover}" alt="${title} cover" class="mx-auto w-64 shadow-xl rounded mb-6" />` : ''}
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-4">${TEXT.h1}</h1>
+      <p class="max-w-2xl mx-auto text-lg text-slate-600 mb-8">${TEXT.desc}</p>
+      <a href="${pdf}" class="inline-block px-10 py-4 bg-blue-600 text-white text-lg font-bold rounded-xl">${TEXT.btn}</a>
     </section>
-    <section class="max-w-3xl mx-auto p-6 prose">
+
+    <section class="py-16 max-w-4xl mx-auto px-6 prose prose-slate">
       ${TEXT.seo}
+    </section>
+
+    <section class="py-16 max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-6">${TEXT.faq}</h2>
+      <div class="space-y-4">
+        ${TEXT.faqs.map(f => `
+          <div class="border rounded-lg p-4">
+            <h3 class="font-semibold">${f.q}</h3>
+            <p class="text-slate-600 mt-2">${f.a}</p>
+          </div>
+        `).join('')}
+      </div>
     </section>
   `;
 }
@@ -143,10 +175,18 @@ function copyHTML() {
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${document.getElementById('seoTitle').textContent}</title>
 <meta name="description" content="${document.getElementById('seoDescription').content}" />
+<meta property="og:type" content="book" />
+<meta property="og:title" content="${ogTitle.content}" />
+<meta property="og:description" content="${ogDescription.content}" />
+<meta property="og:image" content="${ogImage.content}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="${twTitle.content}" />
+<meta name="twitter:description" content="${twDescription.content}" />
+<meta name="twitter:image" content="${twImage.content}" />
 <script src="https://cdn.tailwindcss.com"><\/script>
 <script type="application/ld+json">${schema.textContent}<\/script>
 </head>
-<body>
+<body class="bg-white text-slate-800">
 ${output.innerHTML}
 </body>
 </html>`;
