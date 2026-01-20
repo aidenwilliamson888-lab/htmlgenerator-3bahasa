@@ -29,28 +29,54 @@
 </head>
 <body class="bg-white text-slate-800">
 
-<!-- GENERATOR PANEL -->
-<section class="max-w-5xl mx-auto p-6 bg-slate-50 border-b">
-  <h1 class="text-2xl font-bold mb-4">PDF Book SEO Page Generator</h1>
-  <div class="grid md:grid-cols-2 gap-4">
-    <select id="lang" class="p-3 border rounded">
-      <option value="en">English</option>
-      <option value="es">Spanish</option>
-      <option value="pt">Portuguese</option>
-    </select>
-    <input id="title" placeholder="Book Title" class="p-3 border rounded" />
-    <input id="author" placeholder="Author" class="p-3 border rounded" />
-    <input id="cover" placeholder="Cover Image URL" class="p-3 border rounded" />
-    <input id="pdf" placeholder="PDF Download URL" class="p-3 border rounded" />
-  </div>
-  <div class="flex gap-4 mt-4">
-    <button onclick="generate()" class="px-6 py-3 bg-blue-600 text-white rounded font-bold">Generate Page</button>
-    <button onclick="copyHTML()" class="px-6 py-3 bg-slate-800 text-white rounded font-bold">Copy HTML</button>
+<!-- GENERATOR + PREVIEW WRAPPER -->
+<section class="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 text-white">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <h1 class="text-3xl md:text-4xl font-extrabold mb-8 text-center">PDF Book SEO Page Generator</h1>
+
+    <div class="flex justify-center">
+
+      <!-- CENTER: GENERATOR CONTROLS -->
+      <div class="bg-white/10 backdrop-blur rounded-3xl p-10 shadow-2xl w-full max-w-6xl mx-auto">
+        <h2 class="text-xl font-bold mb-6">Book Variables</h2>
+        <div class="space-y-4">
+          <select id="lang" class="w-full p-3 rounded-xl bg-white/90 text-slate-900">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="pt">Portuguese</option>
+          </select>
+          <input id="title" placeholder="Book Title" class="w-full p-3 rounded-xl bg-white/90 text-slate-900" />
+          <input id="author" placeholder="Author Name" class="w-full p-3 rounded-xl bg-white/90 text-slate-900" />
+          <input id="cover" placeholder="Cover Image URL" class="w-full p-3 rounded-xl bg-white/90 text-slate-900" />
+          <input id="pdf" placeholder="PDF Download URL" class="w-full p-3 rounded-xl bg-white/90 text-slate-900" />
+        </div>
+
+        <div class="flex gap-4 mt-8">
+          <button onclick="generate()" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-bold">Generate</button>
+          <button onclick="copyHTML()" class="flex-1 py-3 bg-slate-900 hover:bg-slate-800 rounded-xl font-bold">Copy HTML</button>
+        </div>
+
+        <!-- LIVE PREVIEW UNDER VARIABLES -->
+        <div class="mt-10 bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="bg-slate-900 text-white text-sm px-4 py-2 font-semibold">Live Preview</div>
+          <main id="output" class="bg-white"></main>
+        </div>
+
+        <p class="text-sm text-white/70 mt-4">Live preview updates automatically as you type.</p>
+      </div>
+
+      
+        <main id="output" class="bg-white"></main>
+      </div>
+
+    </div>
   </div>
 </section>
 
 <!-- OUTPUT PAGE -->
 <main id="output"></main>
+
+
 
 <script>
 // ELEMENT REFERENCES
@@ -80,6 +106,19 @@ function generate() {
   const cover = coverEl.value || '';
   const pdf = pdfEl.value || '#';
 
+  // RANDOM RATING PER LOAD (visual only)
+  const ratingValue = (Math.random() * 0.4 + 4.6).toFixed(1);
+  const reviewCount = Math.floor(Math.random() * 400 + 100);
+
+  const fullStars = Math.floor(ratingValue);
+  const hasHalfStar = ratingValue % 1 >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  const starText = '★'.repeat(fullStars) + (hasHalfStar ? '☆' : '') + '☆'.repeat(emptyStars);
+
+  const ratingText = `${starText} ${ratingValue} / 5`;
+  const ratingMeta = `${reviewCount} readers`;
+  const starPercent = (ratingValue / 5) * 100;
+
   const TEXT = {
     en: {
       h1: `Download ${title} PDF`,
@@ -87,7 +126,6 @@ function generate() {
       btn: 'Download PDF',
       faq: 'Frequently Asked Questions',
       reviewsTitle: 'Reader Reviews',
-      ratingText: '4.8 / 5 from 312 readers',
       seo: `<p><strong>${title}</strong> by ${author} is one of the most searched PDF books online.</p>`,
       reviews: [
         { text: 'An excellent read from beginning to end. The PDF format works perfectly on all devices.', name: 'Verified Reader' },
@@ -105,7 +143,6 @@ function generate() {
       btn: 'Descargar PDF',
       faq: 'Preguntas Frecuentes',
       reviewsTitle: 'Opiniones de Lectores',
-      ratingText: '4.8 / 5 de 312 lectores',
       seo: `<p><strong>${title}</strong> de ${author} es uno de los libros PDF más buscados.</p>`,
       reviews: [
         { text: 'Una lectura excelente de principio a fin. El PDF es muy cómodo.', name: 'Lector Verificado' },
@@ -123,7 +160,6 @@ function generate() {
       btn: 'Baixar PDF',
       faq: 'Perguntas Frequentes',
       reviewsTitle: 'Avaliações dos Leitores',
-      ratingText: '4.8 / 5 de 312 leitores',
       seo: `<p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados.</p>`,
       reviews: [
         { text: 'Leitura excelente do começo ao fim. O PDF funciona muito bem.', name: 'Leitor Verificado' },
@@ -147,7 +183,7 @@ function generate() {
   twDescription.content = TEXT.desc;
   twImage.content = cover;
 
-  // SCHEMA (BOOK + AGGREGATE RATING)
+  // SCHEMA (BOOK)
   schema.textContent = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Book',
@@ -155,21 +191,19 @@ function generate() {
     author: { '@type': 'Person', name: author },
     image: cover,
     bookFormat: 'EBook',
-    inLanguage: lang,
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      reviewCount: '312'
-    }
+    inLanguage: lang
   });
 
-  // OUTPUT (IMPROVED PRODUCTION DESIGN)
+  // OUTPUT (PRODUCTION DESIGN)
   output.innerHTML = `
     <section class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-fuchsia-600 text-white">
       <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,white,transparent_60%)]"></div>
-      <div class="relative max-w-6xl mx-auto px-6 py-24 text-center">
+      <div class="relative max-w-6xl mx-auto px-6 py-24 flex flex-col items-center text-center">
         ${cover ? `
-          <img src="${cover}" alt="${title} cover" class="mx-auto w-64 md:w-72 shadow-2xl rounded-2xl mb-8 ring-4 ring-white/20" />
+          <img src="${cover}" alt="${title} cover" class="w-56 md:w-64 shadow-2xl rounded-2xl mb-4 ring-4 ring-white/20" />
+          <div class="mb-10" aria-label="Rated ${ratingValue} out of 5 stars" role="img">
+            <span class="text-yellow-300 text-lg font-semibold">${ratingText}</span>
+          </div>
         ` : ''}
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">${TEXT.h1}</h1>
         <p class="max-w-2xl mx-auto text-lg md:text-xl text-white/90 mb-10">${TEXT.desc}</p>
@@ -181,12 +215,14 @@ function generate() {
 
     <section class="py-20 bg-white">
       <div class="max-w-4xl mx-auto px-6">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-800">${TEXT.reviewsTitle}</h2>
-        <div class="flex items-center gap-3 mb-10">
-          <div class="text-yellow-400 text-xl">★★★★★</div>
-          <div class="text-slate-600 font-medium">${TEXT.ratingText}</div>
+        <div class="mb-8 text-center">
+          <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-3">${TEXT.reviewsTitle}</h2>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-yellow-400 text-lg">${starText}</span>
+            <span class="text-slate-600 text-sm">${ratingValue} / 5 from ${ratingMeta}</span>
+          </div>
         </div>
-        <div class="grid md:grid-cols-2 gap-6">
+        <div class="space-y-6">
           ${TEXT.reviews.map(r => `
             <div class="bg-slate-50 rounded-2xl p-6 shadow-sm border">
               <p class="text-slate-700 italic mb-4">“${r.text}”</p>
@@ -199,7 +235,9 @@ function generate() {
 
     <section class="py-20 bg-slate-50">
       <div class="max-w-4xl mx-auto px-6">
-        <h2 class="text-3xl md:text-4xl font-bold mb-10 text-slate-800">${TEXT.faq}</h2>
+        <div class="mb-10 text-center">
+          <h2 class="text-3xl md:text-4xl font-bold text-slate-800">${TEXT.faq}</h2>
+        </div>
         <div class="space-y-6">
           ${TEXT.faqs.map(f => `
             <div class="bg-white rounded-2xl p-6 shadow-sm border hover:shadow-md transition">
