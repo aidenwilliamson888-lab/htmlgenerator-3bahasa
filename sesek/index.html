@@ -52,6 +52,24 @@
 <!-- OUTPUT PAGE -->
 <main id="output"></main>
 
+<style>
+/* STAR SHIMMER ANIMATION */
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.6), transparent 70%);
+  animation: shimmer 2.5s infinite;
+}
+@keyframes shimmer {
+  0% { left: -150%; }
+  100% { left: 150%; }
+}
+</style>
+
 <script>
 // ELEMENT REFERENCES
 const langEl = document.getElementById('lang');
@@ -79,6 +97,11 @@ function generate() {
   const author = authorEl.value || 'Author Name';
   const cover = coverEl.value || '';
   const pdf = pdfEl.value || '#';
+
+  // RANDOM RATING PER LOAD (visual only)
+  const ratingValue = (Math.random() * 0.7 + 4.3).toFixed(1);
+  const reviewCount = Math.floor(Math.random() * 400 + 100);
+  const ratingText = `★★★★★ ${ratingValue} / 5 (${reviewCount} reviews)`;
 
   const TEXT = {
     en: {
@@ -161,9 +184,9 @@ function generate() {
       <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,white,transparent_60%)]"></div>
       <div class="relative max-w-6xl mx-auto px-6 py-24 text-center">
         ${cover ? `
-          <img src="${cover}" alt="${title} cover" class="mx-auto w-64 md:w-72 shadow-2xl rounded-2xl mb-4 ring-4 ring-white/20" />
+          <img src="${cover}" alt="${title} cover" class="mx-auto w-64 md:w-72 shadow-2xl rounded-2xl mb-3 ring-4 ring-white/20" />
           <div class="flex justify-center mb-6">
-            <div class="text-yellow-300 text-xl">★★★★★</div>
+            <span class="relative inline-block text-yellow-300 text-xl font-semibold tracking-wide shimmer">${ratingText}</span>
           </div>
         ` : ''}
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">${TEXT.h1}</h1>
