@@ -8,7 +8,6 @@
   <!-- DYNAMIC SEO -->
   <title id="seoTitle">Download PDF Book</title>
   <meta name="description" id="seoDescription" content="" />
-  
 
   <!-- Open Graph -->
   <meta property="og:type" content="book" />
@@ -22,18 +21,8 @@
   <meta name="twitter:description" id="twDescription" content="" />
   <meta name="twitter:image" id="twImage" content="" />
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com">function copyHTML() {
-  const html = '<!DOCTYPE html>
-' + document.documentElement.outerHTML;
-  navigator.clipboard.writeText(html).then(() => alert('HTML copied to clipboard'));
-}
-
-['lang','title','author','cover','pdf'].forEach(id => {
-  document.getElementById(id).addEventListener('input', generate);
-});
-
-</script>
+  <!-- Tailwind CSS (CDN ONLY) -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Structured Data -->
   <script type="application/ld+json" id="schema"></script>
@@ -53,149 +42,146 @@
     <input id="author" placeholder="Author" class="p-3 border rounded" />
     <input id="cover" placeholder="Cover Image URL" class="p-3 border rounded" />
     <input id="pdf" placeholder="PDF Download URL" class="p-3 border rounded" />
-    <input id="site" placeholder="Canonical URL" class="p-3 border rounded" />
   </div>
-  <div class="flex gap-4 mt-4"><button onclick="generate()" class="px-6 py-3 bg-blue-600 text-white rounded font-bold">Generate Page</button><button onclick="copyHTML()" class="px-6 py-3 bg-slate-800 text-white rounded font-bold">Copy HTML</button></div>
+  <div class="flex gap-4 mt-4">
+    <button onclick="generate()" class="px-6 py-3 bg-blue-600 text-white rounded font-bold">Generate Page</button>
+    <button onclick="copyHTML()" class="px-6 py-3 bg-slate-800 text-white rounded font-bold">Copy HTML</button>
+  </div>
 </section>
 
 <!-- OUTPUT PAGE -->
 <main id="output"></main>
 
 <script>
-function generate() {
-  live = true;
-  const lang = langEl.value;
-  const title = titleEl.value;
-  const author = authorEl.value;
-  const cover = coverEl.value;
-  const pdf = pdfEl.value;
-  const site = siteEl.value;
+// ELEMENTS
+const langEl = document.getElementById('lang');
+const titleEl = document.getElementById('title');
+const authorEl = document.getElementById('author');
+const coverEl = document.getElementById('cover');
+const pdfEl = document.getElementById('pdf');
 
-  const T = {
+// LIVE PREVIEW
+['lang','title','author','cover','pdf'].forEach(id => {
+  document.getElementById(id).addEventListener('input', generate);
+});
+
+function generate() {
+  const lang = langEl.value;
+  const title = titleEl.value || 'Book Title';
+  const author = authorEl.value || 'Author Name';
+  const cover = coverEl.value || '';
+  const pdf = pdfEl.value || '#';
+
+  const TEXT = {
     en: {
       h1: `Download ${title} PDF`,
       desc: `Download ${title} PDF by ${author}. Full book, free access, instant download.`,
       btn: 'Download PDF',
-      summary: 'Plot Summary',
-      about: 'About the Author',
       faq: 'Frequently Asked Questions',
-      seoText: `
-        <p><strong>${title}</strong> by ${author} is one of the most searched PDF books online. Readers looking for a reliable and fast way to download the complete book in PDF format will find this page optimized for speed, clarity, and accessibility.</p>
-        <p>This page provides a full overview of the book, including a detailed summary, author background, and direct PDF download link. The ${title} PDF is compatible with all devices, including mobile phones, tablets, and desktop computers.</p>
-        <p>If you are searching for a safe and easy way to read ${title} online or offline, this SEO-optimized download page is designed to deliver the best reading experience possible.</p>`,
+      seo: `
+        <p><strong>${title}</strong> by ${author} is one of the most searched PDF books online. This page is optimized for fast, secure, and easy access to the complete book.</p>
+        <p>You can download ${title} in PDF format and read it on mobile, tablet, or desktop devices without restrictions.</p>
+        <p>This SEO-optimized page provides a safe and reliable way to access the full book instantly.</p>` ,
       faqs: [
-        { q: `Is ${title} the full book PDF?`, a: `Yes, this page provides access to the complete ${title} PDF by ${author}, ready for instant download.` },
-        { q: `Is it free to download ${title} PDF?`, a: `Yes, the PDF is available with free access and can be downloaded instantly.` },
-        { q: `Can I read ${title} on mobile devices?`, a: `Yes, the PDF format is compatible with smartphones, tablets, and desktop devices.` },
-        { q: `Do I need to register to download the PDF?`, a: `No registration is required. Simply click the download button to get the PDF.` }
+        { q: `Is ${title} the full book PDF?`, a: `Yes, this is the complete PDF version of ${title} by ${author}.` },
+        { q: `Is the ${title} PDF free to download?`, a: `Yes, the PDF is available for free access.` },
+        { q: `Can I read ${title} on my phone?`, a: `Yes, the PDF works on all modern devices.` },
+        { q: `Do I need to register?`, a: `No registration is required.` }
       ]
-    },
-        <p><strong>${title}</strong> by ${author} is one of the most searched PDF books online. Readers looking for a reliable and fast way to download the complete book in PDF format will find this page optimized for speed, clarity, and accessibility.</p>
-        <p>This page provides a full overview of the book, including a detailed summary, author background, and direct PDF download link. The ${title} PDF is compatible with all devices, including mobile phones, tablets, and desktop computers.</p>
-        <p>If you are searching for a safe and easy way to read ${title} online or offline, this SEO-optimized download page is designed to deliver the best reading experience possible.</p>`
     },
     es: {
       h1: `Descargar ${title} PDF`,
       desc: `Descarga ${title} en PDF por ${author}. Libro completo con acceso inmediato.`,
       btn: 'Descargar PDF',
-      summary: 'Resumen del Libro',
-      about: 'Sobre el Autor',
       faq: 'Preguntas Frecuentes',
-      seoText: `
-        <p><strong>${title}</strong> de ${author} es uno de los libros en PDF más buscados en internet. Esta página está optimizada para quienes desean descargar el libro completo de forma rápida y sencilla.</p>
-        <p>Aquí encontrarás un resumen detallado del libro, información sobre el autor y un enlace directo para descargar ${title} en formato PDF compatible con todos los dispositivos.</p>
-        <p>Si buscas una forma segura y cómoda de leer ${title} en línea o sin conexión, esta página SEO está diseñada para ofrecer la mejor experiencia posible.</p>`,
+      seo: `
+        <p><strong>${title}</strong> de ${author} es uno de los libros PDF más buscados. Esta página facilita la descarga rápida del libro completo.</p>
+        <p>Puedes leer ${title} en PDF desde cualquier dispositivo, sin restricciones.</p>
+        <p>Página optimizada para SEO con acceso directo y seguro.</p>` ,
       faqs: [
-        { q: `¿${title} es el libro completo en PDF?`, a: `Sí, aquí puedes descargar el libro completo ${title} en formato PDF.` },
-        { q: `¿La descarga del PDF es gratuita?`, a: `Sí, el acceso al PDF es gratuito y directo.` },
-        { q: `¿Puedo leer ${title} en el móvil?`, a: `Sí, el archivo PDF es compatible con teléfonos, tablets y computadoras.` },
-        { q: `¿Es necesario registrarse para descargar?`, a: `No, no es necesario registrarse para descargar el libro.` }
+        { q: `¿${title} es el libro completo en PDF?`, a: `Sí, es el libro completo en formato PDF.` },
+        { q: `¿La descarga es gratuita?`, a: `Sí, el acceso es gratuito.` },
+        { q: `¿Funciona en móvil?`, a: `Sí, es compatible con todos los dispositivos.` },
+        { q: `¿Necesito registrarme?`, a: `No, no es necesario registrarse.` }
       ]
-    },
-        <p><strong>${title}</strong> de ${author} es uno de los libros en PDF más buscados en internet. Esta página está optimizada para quienes desean descargar el libro completo de forma rápida y sencilla.</p>
-        <p>Aquí encontrarás un resumen detallado del libro, información sobre el autor y un enlace directo para descargar ${title} en formato PDF compatible con todos los dispositivos.</p>
-        <p>Si buscas una forma segura y cómoda de leer ${title} en línea o sin conexión, esta página SEO está diseñada para ofrecer la mejor experiencia posible.</p>`
     },
     pt: {
       h1: `Baixar ${title} PDF`,
       desc: `Baixe ${title} em PDF por ${author}. Livro completo com acesso imediato.`,
       btn: 'Baixar PDF',
-      summary: 'Resumo do Livro',
-      about: 'Sobre o Autor',
       faq: 'Perguntas Frequentes',
-      seoText: `
-        <p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados online. Esta página foi criada para facilitar o download rápido e seguro do livro completo.</p>
-        <p>Aqui você encontra um resumo detalhado da obra, informações sobre o autor e um link direto para baixar ${title} em PDF, compatível com todos os dispositivos.</p>
-        <p>Se você procura uma maneira prática de ler ${title} online ou offline, esta página otimizada para SEO oferece a melhor experiência possível.</p>`,
+      seo: `
+        <p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados. Esta página oferece download rápido e seguro.</p>
+        <p>Compatível com celular, tablet e computador.</p>
+        <p>Página otimizada para SEO com acesso direto ao livro completo.</p>` ,
       faqs: [
-        { q: `${title} é o livro completo em PDF?`, a: `Sim, o PDF contém a versão completa do livro ${title} de ${author}.` },
-        { q: `O download do PDF é gratuito?`, a: `Sim, o acesso ao PDF é gratuito e imediato.` },
-        { q: `Posso ler ${title} no celular?`, a: `Sim, o formato PDF funciona em celulares, tablets e computadores.` },
-        { q: `Preciso me registrar para baixar o PDF?`, a: `Não é necessário cadastro para fazer o download.` }
+        { q: `${title} é o livro completo em PDF?`, a: `Sim, é a versão completa do livro.` },
+        { q: `O download é gratuito?`, a: `Sim, o acesso é gratuito.` },
+        { q: `Funciona no celular?`, a: `Sim, funciona em todos os dispositivos.` },
+        { q: `Preciso me cadastrar?`, a: `Não, não é necessário cadastro.` }
       ]
-    },
-        <p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados online. Esta página foi criada para facilitar o download rápido e seguro do livro completo.</p>
-        <p>Aqui você encontra um resumo detalhado da obra, informações sobre o autor e um link direto para baixar ${title} em PDF, compatível com todos os dispositivos.</p>
-        <p>Se você procura uma maneira prática de ler ${title} online ou offline, esta página otimizada para SEO oferece a melhor experiência possível.</p>`
     }
   }[lang];
 
-  // SEO
-  seoTitle.textContent = `${T.h1} – ${author}`;
-  seoDescription.content = T.desc;
-  canonicalUrl.href = site;
-  ogTitle.content = seoTitle.textContent;
-  ogDescription.content = T.desc;
+  // SEO TAGS
+  document.getElementById('seoTitle').textContent = TEXT.h1 + ' – ' + author;
+  document.getElementById('seoDescription').content = TEXT.desc;
+  ogTitle.content = TEXT.h1;
+  ogDescription.content = TEXT.desc;
   ogImage.content = cover;
-  twTitle.content = seoTitle.textContent;
-  twDescription.content = T.desc;
+  twTitle.content = TEXT.h1;
+  twDescription.content = TEXT.desc;
   twImage.content = cover;
 
-  // Schema
+  // SCHEMA
   schema.textContent = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Book',
     name: title,
     author: { '@type': 'Person', name: author },
     image: cover,
-    url: site,
     bookFormat: 'EBook',
     inLanguage: lang
   }, null, 2);
 
-  // Page Output
+  // OUTPUT
   output.innerHTML = `
-  <section class="py-20 bg-gradient-to-b from-slate-50 to-white text-center">
-    <img src="${cover}" class="mx-auto w-64 shadow-xl rounded mb-6" />
-    <h1 class="text-4xl md:text-6xl font-extrabold mb-4">${T.h1}</h1>
-    <p class="max-w-2xl mx-auto text-lg text-slate-600 mb-8">${T.desc}</p>
-    <a href="${pdf}" class="inline-block px-10 py-4 bg-blue-600 text-white text-lg font-bold rounded-xl">${T.btn}</a>
-  </section>
+    <section class="py-20 bg-gradient-to-b from-slate-50 to-white text-center">
+      ${cover ? `<img src="${cover}" class="mx-auto w-64 shadow-xl rounded mb-6" />` : ''}
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-4">${TEXT.h1}</h1>
+      <p class="max-w-2xl mx-auto text-lg text-slate-600 mb-8">${TEXT.desc}</p>
+      <a href="${pdf}" class="inline-block px-10 py-4 bg-blue-600 text-white text-lg font-bold rounded-xl">${TEXT.btn}</a>
+    </section>
 
-  <section class="py-16 max-w-4xl mx-auto px-6">
-    <h2 class="text-3xl font-bold mb-6">${T.faq}</h2>
-    <div class="space-y-4">
-      ${T.faqs.map(f => `
-        <div class="border rounded-lg p-4">
-          <h3 class="font-semibold">${f.q}</h3>
-          <p class="text-slate-600 mt-2">${f.a}</p>
-        </div>
-      `).join('')}
-    </div>
-  </section>
+    <section class="py-16 max-w-4xl mx-auto px-6 prose prose-slate">
+      ${TEXT.seo}
+    </section>
 
-  <footer class="py-10 text-center text-sm text-slate-500 border-t">
-    <p>© ${new Date().getFullYear()} PDF Book Download. Fan-made informational page.</p>
-  </footer>
+    <section class="py-16 max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-6">${TEXT.faq}</h2>
+      <div class="space-y-4">
+        ${TEXT.faqs.map(f => `
+          <div class="border rounded-lg p-4">
+            <h3 class="font-semibold">${f.q}</h3>
+            <p class="text-slate-600 mt-2">${f.a}</p>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+
+    <footer class="py-10 text-center text-sm text-slate-500 border-t">
+      <p>© ${new Date().getFullYear()} PDF Book Download. Fan-made informational page.</p>
+    </footer>
   `;
 }
 
-const langEl = document.getElementById('lang');
-const titleEl = document.getElementById('title');
-const authorEl = document.getElementById('author');
-const coverEl = document.getElementById('cover');
-const pdfEl = document.getElementById('pdf');
-const siteEl = document.getElementById('site');
+function copyHTML() {
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  navigator.clipboard.writeText(html).then(() => alert('HTML copied to clipboard'));
+}
+
+// INITIAL RENDER
+generate();
 </script>
 
 </body>
