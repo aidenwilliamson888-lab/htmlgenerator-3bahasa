@@ -21,7 +21,7 @@
   <meta name="twitter:description" id="twDescription" content="" />
   <meta name="twitter:image" id="twImage" content="" />
 
-  <!-- Tailwind CSS (CDN ONLY) -->
+  <!-- Tailwind CSS (generator only) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Structured Data -->
@@ -53,12 +53,20 @@
 <main id="output"></main>
 
 <script>
-// ELEMENTS
+// ELEMENT REFERENCES
 const langEl = document.getElementById('lang');
 const titleEl = document.getElementById('title');
 const authorEl = document.getElementById('author');
 const coverEl = document.getElementById('cover');
 const pdfEl = document.getElementById('pdf');
+const output = document.getElementById('output');
+const ogTitle = document.getElementById('ogTitle');
+const ogDescription = document.getElementById('ogDescription');
+const ogImage = document.getElementById('ogImage');
+const twTitle = document.getElementById('twTitle');
+const twDescription = document.getElementById('twDescription');
+const twImage = document.getElementById('twImage');
+const schema = document.getElementById('schema');
 
 // LIVE PREVIEW
 ['lang','title','author','cover','pdf'].forEach(id => {
@@ -77,54 +85,24 @@ function generate() {
       h1: `Download ${title} PDF`,
       desc: `Download ${title} PDF by ${author}. Full book, free access, instant download.`,
       btn: 'Download PDF',
-      faq: 'Frequently Asked Questions',
-      seo: `
-        <p><strong>${title}</strong> by ${author} is one of the most searched PDF books online. This page is optimized for fast, secure, and easy access to the complete book.</p>
-        <p>You can download ${title} in PDF format and read it on mobile, tablet, or desktop devices without restrictions.</p>
-        <p>This SEO-optimized page provides a safe and reliable way to access the full book instantly.</p>` ,
-      faqs: [
-        { q: `Is ${title} the full book PDF?`, a: `Yes, this is the complete PDF version of ${title} by ${author}.` },
-        { q: `Is the ${title} PDF free to download?`, a: `Yes, the PDF is available for free access.` },
-        { q: `Can I read ${title} on my phone?`, a: `Yes, the PDF works on all modern devices.` },
-        { q: `Do I need to register?`, a: `No registration is required.` }
-      ]
+      seo: `<p><strong>${title}</strong> by ${author} is one of the most searched PDF books online.</p>`
     },
     es: {
       h1: `Descargar ${title} PDF`,
-      desc: `Descarga ${title} en PDF por ${author}. Libro completo con acceso inmediato.`,
+      desc: `Descarga ${title} en PDF por ${author}. Libro completo.`,
       btn: 'Descargar PDF',
-      faq: 'Preguntas Frecuentes',
-      seo: `
-        <p><strong>${title}</strong> de ${author} es uno de los libros PDF más buscados. Esta página facilita la descarga rápida del libro completo.</p>
-        <p>Puedes leer ${title} en PDF desde cualquier dispositivo, sin restricciones.</p>
-        <p>Página optimizada para SEO con acceso directo y seguro.</p>` ,
-      faqs: [
-        { q: `¿${title} es el libro completo en PDF?`, a: `Sí, es el libro completo en formato PDF.` },
-        { q: `¿La descarga es gratuita?`, a: `Sí, el acceso es gratuito.` },
-        { q: `¿Funciona en móvil?`, a: `Sí, es compatible con todos los dispositivos.` },
-        { q: `¿Necesito registrarme?`, a: `No, no es necesario registrarse.` }
-      ]
+      seo: `<p><strong>${title}</strong> de ${author} es uno de los libros PDF más buscados.</p>`
     },
     pt: {
       h1: `Baixar ${title} PDF`,
-      desc: `Baixe ${title} em PDF por ${author}. Livro completo com acesso imediato.`,
+      desc: `Baixe ${title} em PDF por ${author}. Livro completo.`,
       btn: 'Baixar PDF',
-      faq: 'Perguntas Frequentes',
-      seo: `
-        <p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados. Esta página oferece download rápido e seguro.</p>
-        <p>Compatível com celular, tablet e computador.</p>
-        <p>Página otimizada para SEO com acesso direto ao livro completo.</p>` ,
-      faqs: [
-        { q: `${title} é o livro completo em PDF?`, a: `Sim, é a versão completa do livro.` },
-        { q: `O download é gratuito?`, a: `Sim, o acesso é gratuito.` },
-        { q: `Funciona no celular?`, a: `Sim, funciona em todos os dispositivos.` },
-        { q: `Preciso me cadastrar?`, a: `Não, não é necessário cadastro.` }
-      ]
+      seo: `<p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados.</p>`
     }
   }[lang];
 
   // SEO TAGS
-  document.getElementById('seoTitle').textContent = TEXT.h1 + ' – ' + author;
+  document.getElementById('seoTitle').textContent = `${TEXT.h1} – ${author}`;
   document.getElementById('seoDescription').content = TEXT.desc;
   ogTitle.content = TEXT.h1;
   ogDescription.content = TEXT.desc;
@@ -142,42 +120,38 @@ function generate() {
     image: cover,
     bookFormat: 'EBook',
     inLanguage: lang
-  }, null, 2);
+  });
 
   // OUTPUT
   output.innerHTML = `
-    <section class="py-20 bg-gradient-to-b from-slate-50 to-white text-center">
-      ${cover ? `<img src="${cover}" class="mx-auto w-64 shadow-xl rounded mb-6" />` : ''}
-      <h1 class="text-4xl md:text-6xl font-extrabold mb-4">${TEXT.h1}</h1>
-      <p class="max-w-2xl mx-auto text-lg text-slate-600 mb-8">${TEXT.desc}</p>
-      <a href="${pdf}" class="inline-block px-10 py-4 bg-blue-600 text-white text-lg font-bold rounded-xl">${TEXT.btn}</a>
+    <section class="py-20 text-center">
+      <h1 class="text-4xl font-bold">${TEXT.h1}</h1>
+      <p class="mt-4">${TEXT.desc}</p>
+      <a href="${pdf}" class="inline-block mt-6 px-6 py-3 bg-blue-600 text-white rounded">${TEXT.btn}</a>
     </section>
-
-    <section class="py-16 max-w-4xl mx-auto px-6 prose prose-slate">
+    <section class="max-w-3xl mx-auto p-6 prose">
       ${TEXT.seo}
     </section>
-
-    <section class="py-16 max-w-4xl mx-auto px-6">
-      <h2 class="text-3xl font-bold mb-6">${TEXT.faq}</h2>
-      <div class="space-y-4">
-        ${TEXT.faqs.map(f => `
-          <div class="border rounded-lg p-4">
-            <h3 class="font-semibold">${f.q}</h3>
-            <p class="text-slate-600 mt-2">${f.a}</p>
-          </div>
-        `).join('')}
-      </div>
-    </section>
-
-    <footer class="py-10 text-center text-sm text-slate-500 border-t">
-      <p>© ${new Date().getFullYear()} PDF Book Download. Fan-made informational page.</p>
-    </footer>
   `;
 }
 
 function copyHTML() {
-  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-  navigator.clipboard.writeText(html).then(() => alert('HTML copied to clipboard'));
+  const productionHTML = `<!DOCTYPE html>
+<html lang="${langEl.value}">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>${document.getElementById('seoTitle').textContent}</title>
+<meta name="description" content="${document.getElementById('seoDescription').content}" />
+<script src="https://cdn.tailwindcss.com"><\/script>
+<script type="application/ld+json">${schema.textContent}<\/script>
+</head>
+<body>
+${output.innerHTML}
+</body>
+</html>`;
+
+  navigator.clipboard.writeText(productionHTML).then(() => alert('Production HTML copied'));
 }
 
 // INITIAL RENDER
