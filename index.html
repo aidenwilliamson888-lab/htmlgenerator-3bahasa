@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Book Download Generator</title>
+
+  <!-- BASIC SEO -->
+  <meta name="description" content="Generate SEO-optimized PDF book download pages in English, Spanish, and Portuguese." />
+  <meta name="keywords" content="PDF book download, ebook, free pdf, book generator" />
+  <meta name="author" content="Book Generator" />
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="PDF Book Download" />
+  <meta property="og:description" content="Download your PDF book instantly." />
+  <meta property="og:image" content="" id="ogImage" />
+
+  <style>
+    body { font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:20px; }
+    .container { max-width:900px; margin:auto; background:#fff; padding:20px; border-radius:8px; }
+    .generator { background:#eef; padding:15px; border-radius:6px; margin-bottom:20px; }
+    input, select, button { width:100%; padding:10px; margin:8px 0; }
+    button { cursor:pointer; background:#2c7be5; color:#fff; border:none; border-radius:4px; }
+    .book { display:flex; gap:20px; margin-top:20px; }
+    .book img { max-width:220px; border-radius:6px; }
+    .download { margin-top:15px; }
+    .download a { background:#28a745; color:#fff; padding:12px 20px; text-decoration:none; border-radius:4px; display:inline-block; }
+    footer { margin-top:40px; text-align:center; font-size:14px; color:#666; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>PDF Book Page Generator</h1>
+
+  <!-- VARIABLE GENERATOR -->
+  <div class="generator">
+    <h2>Generator Settings</h2>
+
+    <label>Language Template</label>
+    <select id="lang">
+      <option value="en">English</option>
+      <option value="es">Spanish</option>
+      <option value="pt">Portuguese</option>
+    </select>
+
+    <label>Book Title</label>
+    <input id="title" placeholder="Enter book title" />
+
+    <label>Author</label>
+    <input id="author" placeholder="Enter author name" />
+
+    <label>Cover Image URL</label>
+    <input id="image" placeholder="https://example.com/cover.jpg" />
+
+    <label>PDF Download Link</label>
+    <input id="download" placeholder="https://example.com/book.pdf" />
+
+    <button onclick="generate()">Generate Template</button>
+  </div>
+
+  <!-- BOOK TEMPLATE OUTPUT -->
+  <div id="output"></div>
+
+  <footer>
+    <p>© 2026 PDF Book Generator – SEO Ready</p>
+  </footer>
+</div>
+
+<script>
+function generate() {
+  const lang = document.getElementById('lang').value;
+  const title = document.getElementById('title').value;
+  const author = document.getElementById('author').value;
+  const image = document.getElementById('image').value;
+  const download = document.getElementById('download').value;
+
+  let text = {};
+
+  if (lang === 'en') {
+    text = {
+      heading: 'Download PDF Book',
+      by: 'Author',
+      button: 'Download PDF',
+      description: 'Free PDF book download with instant access.'
+    };
+  }
+
+  if (lang === 'es') {
+    text = {
+      heading: 'Descargar Libro PDF',
+      by: 'Autor',
+      button: 'Descargar PDF',
+      description: 'Descarga gratuita del libro en PDF con acceso inmediato.'
+    };
+  }
+
+  if (lang === 'pt') {
+    text = {
+      heading: 'Baixar Livro em PDF',
+      by: 'Autor',
+      button: 'Baixar PDF',
+      description: 'Download gratuito do livro em PDF com acesso imediato.'
+    };
+  }
+
+  document.getElementById('ogImage').content = image;
+
+  document.getElementById('output').innerHTML = `
+    <article itemscope itemtype="https://schema.org/Book">
+      <h2 itemprop="name">${title}</h2>
+      <p>${text.description}</p>
+
+      <div class="book">
+        <img src="${image}" alt="${title} cover" itemprop="image" />
+        <div>
+          <p><strong>${text.by}:</strong> <span itemprop="author">${author}</span></p>
+          <div class="download">
+            <a href="${download}" itemprop="bookFormat" content="EBook">${text.button}</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+</script>
+
+</body>
+</html>
