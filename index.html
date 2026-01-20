@@ -32,7 +32,7 @@
 <!-- GENERATOR + PREVIEW WRAPPER -->
 <section class="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 text-white">
   <div class="max-w-7xl mx-auto px-6 py-12">
-    <h1 class="text-3xl md:text-4xl font-extrabold mb-8 text-center">IMmedia Static Generator</h1>
+    <h1 class="text-3xl md:text-4xl font-extrabold mb-8 text-center">PDF Book SEO Page Generator</h1>
 
     <div class="flex justify-center">
 
@@ -44,6 +44,11 @@
             <option value="en">English</option>
             <option value="es">Spanish</option>
             <option value="pt">Portuguese</option>
+            <option value="fr">French</option>
+            <option value="ja">Japanese</option>
+            <option value="de">German</option>
+            <option value="it">Italian</option>
+            <option value="ar">Arabic</option>
           </select>
           <input id="title" placeholder="Book Title" class="w-full p-3 rounded-xl bg-white/90 text-slate-900" />
           <input id="author" placeholder="Author Name" class="w-full p-3 rounded-xl bg-white/90 text-slate-900" />
@@ -139,7 +144,7 @@ function generate() {
     },
     es: {
       h1: `Descargar ${title} PDF`,
-      desc: `Descarga ${title} en PDF por ${author}. Libro completo.`,
+      desc: `Descarga ${title} en PDF por ${author}. Libro completo, acceso inmediato.`,
       btn: 'Descargar PDF',
       faq: 'Preguntas Frecuentes',
       reviewsTitle: 'Opiniones de Lectores',
@@ -156,7 +161,7 @@ function generate() {
     },
     pt: {
       h1: `Baixar ${title} PDF`,
-      desc: `Baixe ${title} em PDF por ${author}. Livro completo.`,
+      desc: `Baixe ${title} em PDF por ${author}. Livro completo, acesso imediato.`,
       btn: 'Baixar PDF',
       faq: 'Perguntas Frequentes',
       reviewsTitle: 'Avaliações dos Leitores',
@@ -169,6 +174,91 @@ function generate() {
         { q: `${title} é o livro completo em PDF?`, a: 'Sim, é o livro completo.' },
         { q: 'O download é gratuito?', a: 'Sim, o acesso é gratuito.' },
         { q: 'Funciona no celular?', a: 'Sim, funciona em todos os dispositivos.' }
+      ]
+    },
+    fr: {
+      h1: `Télécharger ${title} PDF`,
+      desc: `Téléchargez ${title} en PDF par ${author}. Livre complet, accès immédiat.`,
+      btn: 'Télécharger le PDF',
+      faq: 'Questions Fréquemment Posées',
+      reviewsTitle: 'Avis des Lecteurs',
+      seo: `<p><strong>${title}</strong> de ${author} est l’un des livres PDF les plus recherchés.</p>`,
+      reviews: [
+        { text: 'Une lecture excellente du début à la fin. Le PDF est très pratique.', name: 'Lecteur Vérifié' },
+        { text: 'Très bien écrit et facile à télécharger. Fortement recommandé.', name: 'Passionné de Lecture' }
+      ],
+      faqs: [
+        { q: `Le PDF de ${title} est-il complet ?`, a: 'Oui, il s’agit de la version complète.' },
+        { q: 'Le téléchargement est-il gratuit ?', a: 'Oui, l’accès est gratuit.' },
+        { q: 'Fonctionne-t-il sur mobile ?', a: 'Oui, compatible avec tous les appareils.' }
+      ]
+    },
+    ja: {
+      h1: `${title} PDFをダウンロード`,
+      desc: `${author}による${title}のPDF版をダウンロード。完全版・即時アクセス可能。`,
+      btn: 'PDFをダウンロード',
+      faq: 'よくある質問',
+      reviewsTitle: '読者レビュー',
+      seo: `<p><strong>${title}</strong>（${author}著）は、最も検索されているPDF書籍の一つです。</p>`,
+      reviews: [
+        { text: '最初から最後まで素晴らしい内容です。PDFもとても読みやすいです。', name: '認証済み読者' },
+        { text: 'ダウンロードが簡単で、とても役立ちました。おすすめです。', name: '書籍ファン' }
+      ],
+      faqs: [
+        { q: `${title}は完全版のPDFですか？`, a: 'はい、完全版のPDFです。' },
+        { q: '無料でダウンロードできますか？', a: 'はい、無料でご利用いただけます。' },
+        { q: 'スマートフォンでも読めますか？', a: 'はい、すべてのデバイスに対応しています。' }
+      ]
+    },
+    de: {
+      h1: `${title} PDF herunterladen`,
+      desc: `Laden Sie ${title} als PDF von ${author} herunter. Vollständiges Buch, sofortiger Zugriff.`,
+      btn: 'PDF herunterladen',
+      faq: 'Häufig gestellte Fragen',
+      reviewsTitle: 'Leserbewertungen',
+      seo: `<p><strong>${title}</strong> von ${author} gehört zu den meistgesuchten PDF-Büchern.</p>`,
+      reviews: [
+        { text: 'Ein hervorragendes Buch von Anfang bis Ende. Das PDF ist sehr gut lesbar.', name: 'Verifizierter Leser' },
+        { text: 'Gut geschrieben, leicht herunterzuladen und sehr informativ.', name: 'Bücherliebhaber' }
+      ],
+      faqs: [
+        { q: `Ist ${title} das vollständige PDF-Buch?`, a: 'Ja, dies ist die vollständige PDF-Version.' },
+        { q: 'Ist der Download kostenlos?', a: 'Ja, der Download ist kostenlos.' },
+        { q: 'Funktioniert es auf Mobilgeräten?', a: 'Ja, es ist mit allen Geräten kompatibel.' }
+      ]
+    },
+    it: {
+      h1: `Scarica ${title} PDF`,
+      desc: `Scarica ${title} in PDF di ${author}. Libro completo, accesso immediato.`,
+      btn: 'Scarica PDF',
+      faq: 'Domande Frequenti',
+      reviewsTitle: 'Recensioni dei Lettori',
+      seo: `<p><strong>${title}</strong> di ${author} è uno dei libri PDF più cercati.</p>`,
+      reviews: [
+        { text: 'Una lettura eccellente dall’inizio alla fine. PDF di alta qualità.', name: 'Lettore Verificato' },
+        { text: 'Ben scritto, facile da scaricare e molto utile.', name: 'Appassionato di Libri' }
+      ],
+      faqs: [
+        { q: `${title} è il libro completo in PDF?`, a: 'Sì, è la versione completa.' },
+        { q: 'Il download è gratuito?', a: 'Sì, il download è gratuito.' },
+        { q: 'Funziona su dispositivi mobili?', a: 'Sì, è compatibile con tutti i dispositivi.' }
+      ]
+    },
+    ar: {
+      h1: `تحميل ${title} PDF`,
+      desc: `قم بتحميل كتاب ${title} بصيغة PDF للكاتب ${author}. النسخة الكاملة مع وصول فوري.`,
+      btn: 'تحميل PDF',
+      faq: 'الأسئلة الشائعة',
+      reviewsTitle: 'آراء القرّاء',
+      seo: `<p><strong>${title}</strong> للكاتب ${author} من أكثر الكتب بصيغة PDF بحثًا.</p>`,
+      reviews: [
+        { text: 'كتاب رائع من البداية إلى النهاية، وملف PDF سهل القراءة.', name: 'قارئ موثوق' },
+        { text: 'سهل التحميل ومفيد جدًا. أنصح به بشدة.', name: 'محب للكتب' }
+      ],
+      faqs: [
+        { q: `هل ${title} هو الكتاب الكامل بصيغة PDF؟`, a: 'نعم، هذه هي النسخة الكاملة.' },
+        { q: 'هل التحميل مجاني؟', a: 'نعم، التحميل مجاني.' },
+        { q: 'هل يعمل على الهواتف المحمولة؟', a: 'نعم، يعمل على جميع الأجهزة.' }
       ]
     }
   }[lang];
@@ -251,7 +341,7 @@ function generate() {
 
     <footer class="bg-slate-900 text-slate-400">
       <div class="max-w-6xl mx-auto px-6 py-10 text-center">
-        <p class="text-sm">© ${new Date().getFullYear()} IMmedia Digital Marketing.</p>
+        <p class="text-sm">© ${new Date().getFullYear()} PDF Book Download. Informational page.</p>
       </div>
     </footer>
   `;
