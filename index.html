@@ -1,130 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDF Book Download Generator</title>
+  <meta name="robots" content="index, follow" />
 
-  <!-- BASIC SEO -->
-  <meta name="description" content="Generate SEO-optimized PDF book download pages in English, Spanish, and Portuguese." />
-  <meta name="keywords" content="PDF book download, ebook, free pdf, book generator" />
-  <meta name="author" content="Book Generator" />
+  <!-- DYNAMIC SEO -->
+  <title id="seoTitle">Download PDF Book</title>
+  <meta name="description" id="seoDescription" content="" />
+  <link rel="canonical" id="canonicalUrl" href="" />
 
-  <!-- OPEN GRAPH -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="PDF Book Download" />
-  <meta property="og:description" content="Download your PDF book instantly." />
-  <meta property="og:image" content="" id="ogImage" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="book" />
+  <meta property="og:title" id="ogTitle" content="" />
+  <meta property="og:description" id="ogDescription" content="" />
+  <meta property="og:image" id="ogImage" content="" />
 
-  <style>
-    body { font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:20px; }
-    .container { max-width:900px; margin:auto; background:#fff; padding:20px; border-radius:8px; }
-    .generator { background:#eef; padding:15px; border-radius:6px; margin-bottom:20px; }
-    input, select, button { width:100%; padding:10px; margin:8px 0; }
-    button { cursor:pointer; background:#2c7be5; color:#fff; border:none; border-radius:4px; }
-    .book { display:flex; gap:20px; margin-top:20px; }
-    .book img { max-width:220px; border-radius:6px; }
-    .download { margin-top:15px; }
-    .download a { background:#28a745; color:#fff; padding:12px 20px; text-decoration:none; border-radius:4px; display:inline-block; }
-    footer { margin-top:40px; text-align:center; font-size:14px; color:#666; }
-  </style>
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" id="twTitle" content="" />
+  <meta name="twitter:description" id="twDescription" content="" />
+  <meta name="twitter:image" id="twImage" content="" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" id="schema"></script>
 </head>
-<body>
+<body class="bg-white text-slate-800">
 
-<div class="container">
-
-  <h1>PDF Book Page Generator</h1>
-
-  <!-- VARIABLE GENERATOR -->
-  <div class="generator">
-    <h2>Generator Settings</h2>
-
-    <label>Language Template</label>
-    <select id="lang">
+<!-- GENERATOR PANEL -->
+<section class="max-w-5xl mx-auto p-6 bg-slate-50 border-b">
+  <h1 class="text-2xl font-bold mb-4">PDF Book SEO Page Generator</h1>
+  <div class="grid md:grid-cols-2 gap-4">
+    <select id="lang" class="p-3 border rounded">
       <option value="en">English</option>
       <option value="es">Spanish</option>
       <option value="pt">Portuguese</option>
     </select>
-
-    <label>Book Title</label>
-    <input id="title" placeholder="Enter book title" />
-
-    <label>Author</label>
-    <input id="author" placeholder="Enter author name" />
-
-    <label>Cover Image URL</label>
-    <input id="image" placeholder="https://example.com/cover.jpg" />
-
-    <label>PDF Download Link</label>
-    <input id="download" placeholder="https://example.com/book.pdf" />
-
-    <button onclick="generate()">Generate Template</button>
+    <input id="title" placeholder="Book Title" class="p-3 border rounded" />
+    <input id="author" placeholder="Author" class="p-3 border rounded" />
+    <input id="cover" placeholder="Cover Image URL" class="p-3 border rounded" />
+    <input id="pdf" placeholder="PDF Download URL" class="p-3 border rounded" />
+    <input id="site" placeholder="Canonical URL" class="p-3 border rounded" />
   </div>
+  <button onclick="generate()" class="mt-4 px-6 py-3 bg-blue-600 text-white rounded font-bold">Generate Page</button>
+</section>
 
-  <!-- BOOK TEMPLATE OUTPUT -->
-  <div id="output"></div>
-
-  <footer>
-    <p>© 2026 PDF Book Generator – SEO Ready</p>
-  </footer>
-</div>
+<!-- OUTPUT PAGE -->
+<main id="output"></main>
 
 <script>
 function generate() {
-  const lang = document.getElementById('lang').value;
-  const title = document.getElementById('title').value;
-  const author = document.getElementById('author').value;
-  const image = document.getElementById('image').value;
-  const download = document.getElementById('download').value;
+  const lang = langEl.value;
+  const title = titleEl.value;
+  const author = authorEl.value;
+  const cover = coverEl.value;
+  const pdf = pdfEl.value;
+  const site = siteEl.value;
 
-  let text = {};
+  const T = {
+    en: {
+      h1: `Download ${title} PDF`,
+      desc: `Download ${title} PDF by ${author}. Full book, free access, instant download.`,
+      btn: 'Download PDF',
+      summary: 'Plot Summary',
+      about: 'About the Author',
+      faq: 'Frequently Asked Questions'
+    },
+    es: {
+      h1: `Descargar ${title} PDF`,
+      desc: `Descarga ${title} en PDF por ${author}. Libro completo con acceso inmediato.`,
+      btn: 'Descargar PDF',
+      summary: 'Resumen del Libro',
+      about: 'Sobre el Autor',
+      faq: 'Preguntas Frecuentes'
+    },
+    pt: {
+      h1: `Baixar ${title} PDF`,
+      desc: `Baixe ${title} em PDF por ${author}. Livro completo com acesso imediato.`,
+      btn: 'Baixar PDF',
+      summary: 'Resumo do Livro',
+      about: 'Sobre o Autor',
+      faq: 'Perguntas Frequentes'
+    }
+  }[lang];
 
-  if (lang === 'en') {
-    text = {
-      heading: 'Download PDF Book',
-      by: 'Author',
-      button: 'Download PDF',
-      description: 'Free PDF book download with instant access.'
-    };
-  }
+  // SEO
+  seoTitle.textContent = `${T.h1} – ${author}`;
+  seoDescription.content = T.desc;
+  canonicalUrl.href = site;
+  ogTitle.content = seoTitle.textContent;
+  ogDescription.content = T.desc;
+  ogImage.content = cover;
+  twTitle.content = seoTitle.textContent;
+  twDescription.content = T.desc;
+  twImage.content = cover;
 
-  if (lang === 'es') {
-    text = {
-      heading: 'Descargar Libro PDF',
-      by: 'Autor',
-      button: 'Descargar PDF',
-      description: 'Descarga gratuita del libro en PDF con acceso inmediato.'
-    };
-  }
+  // Schema
+  schema.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Book',
+    name: title,
+    author: { '@type': 'Person', name: author },
+    image: cover,
+    url: site,
+    bookFormat: 'EBook',
+    inLanguage: lang
+  }, null, 2);
 
-  if (lang === 'pt') {
-    text = {
-      heading: 'Baixar Livro em PDF',
-      by: 'Autor',
-      button: 'Baixar PDF',
-      description: 'Download gratuito do livro em PDF com acesso imediato.'
-    };
-  }
+  // Page Output
+  output.innerHTML = `
+  <section class="py-20 bg-gradient-to-b from-slate-50 to-white text-center">
+    <img src="${cover}" class="mx-auto w-64 shadow-xl rounded mb-6" />
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-4">${T.h1}</h1>
+    <p class="max-w-2xl mx-auto text-lg text-slate-600 mb-8">${T.desc}</p>
+    <a href="${pdf}" class="inline-block px-10 py-4 bg-blue-600 text-white text-lg font-bold rounded-xl">${T.btn}</a>
+  </section>
 
-  document.getElementById('ogImage').content = image;
+  <section class="py-16 max-w-4xl mx-auto px-6">
+    <h2 class="text-3xl font-bold mb-4">${T.summary}</h2>
+    <p class="text-slate-600 leading-relaxed">
+      ${title} is a highly acclaimed book written by ${author}. This SEO-optimized page is generated dynamically and designed to rank for long-tail keywords related to PDF book downloads.
+    </p>
+  </section>
 
-  document.getElementById('output').innerHTML = `
-    <article itemscope itemtype="https://schema.org/Book">
-      <h2 itemprop="name">${title}</h2>
-      <p>${text.description}</p>
+  <section class="py-16 bg-slate-50">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-4">${T.about}</h2>
+      <p class="text-slate-600 leading-relaxed">${author} is a renowned author known for compelling storytelling and global readership.</p>
+    </div>
+  </section>
 
-      <div class="book">
-        <img src="${image}" alt="${title} cover" itemprop="image" />
-        <div>
-          <p><strong>${text.by}:</strong> <span itemprop="author">${author}</span></p>
-          <div class="download">
-            <a href="${download}" itemprop="bookFormat" content="EBook">${text.button}</a>
-          </div>
-        </div>
-      </div>
-    </article>
+  <section class="py-16 max-w-4xl mx-auto px-6">
+    <h2 class="text-3xl font-bold mb-6">${T.faq}</h2>
+    <ul class="space-y-4 text-slate-600">
+      <li><strong>Is this the full book?</strong> Yes, complete PDF version.</li>
+      <li><strong>Is it free?</strong> Yes, instant access.</li>
+      <li><strong>Is it mobile friendly?</strong> Yes, works on all devices.</li>
+    </ul>
+  </section>
+
+  <footer class="py-10 text-center text-sm text-slate-500 border-t">
+    <p>© ${new Date().getFullYear()} PDF Book Download. Fan-made informational page.</p>
+  </footer>
   `;
 }
+
+const langEl = document.getElementById('lang');
+const titleEl = document.getElementById('title');
+const authorEl = document.getElementById('author');
+const coverEl = document.getElementById('cover');
+const pdfEl = document.getElementById('pdf');
+const siteEl = document.getElementById('site');
 </script>
 
 </body>
