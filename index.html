@@ -8,7 +8,7 @@
   <!-- DYNAMIC SEO -->
   <title id="seoTitle">Download PDF Book</title>
   <meta name="description" id="seoDescription" content="" />
-  <link rel="canonical" id="canonicalUrl" href="" />
+  
 
   <!-- Open Graph -->
   <meta property="og:type" content="book" />
@@ -23,7 +23,17 @@
   <meta name="twitter:image" id="twImage" content="" />
 
   <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com">function copyHTML() {
+  const html = '<!DOCTYPE html>
+' + document.documentElement.outerHTML;
+  navigator.clipboard.writeText(html).then(() => alert('HTML copied to clipboard'));
+}
+
+['lang','title','author','cover','pdf'].forEach(id => {
+  document.getElementById(id).addEventListener('input', generate);
+});
+
+</script>
 
   <!-- Structured Data -->
   <script type="application/ld+json" id="schema"></script>
@@ -45,7 +55,7 @@
     <input id="pdf" placeholder="PDF Download URL" class="p-3 border rounded" />
     <input id="site" placeholder="Canonical URL" class="p-3 border rounded" />
   </div>
-  <button onclick="generate()" class="mt-4 px-6 py-3 bg-blue-600 text-white rounded font-bold">Generate Page</button>
+  <div class="flex gap-4 mt-4"><button onclick="generate()" class="px-6 py-3 bg-blue-600 text-white rounded font-bold">Generate Page</button><button onclick="copyHTML()" class="px-6 py-3 bg-slate-800 text-white rounded font-bold">Copy HTML</button></div>
 </section>
 
 <!-- OUTPUT PAGE -->
@@ -53,6 +63,7 @@
 
 <script>
 function generate() {
+  live = true;
   const lang = langEl.value;
   const title = titleEl.value;
   const author = authorEl.value;
@@ -67,7 +78,21 @@ function generate() {
       btn: 'Download PDF',
       summary: 'Plot Summary',
       about: 'About the Author',
-      faq: 'Frequently Asked Questions'
+      faq: 'Frequently Asked Questions',
+      seoText: `
+        <p><strong>${title}</strong> by ${author} is one of the most searched PDF books online. Readers looking for a reliable and fast way to download the complete book in PDF format will find this page optimized for speed, clarity, and accessibility.</p>
+        <p>This page provides a full overview of the book, including a detailed summary, author background, and direct PDF download link. The ${title} PDF is compatible with all devices, including mobile phones, tablets, and desktop computers.</p>
+        <p>If you are searching for a safe and easy way to read ${title} online or offline, this SEO-optimized download page is designed to deliver the best reading experience possible.</p>`,
+      faqs: [
+        { q: `Is ${title} the full book PDF?`, a: `Yes, this page provides access to the complete ${title} PDF by ${author}, ready for instant download.` },
+        { q: `Is it free to download ${title} PDF?`, a: `Yes, the PDF is available with free access and can be downloaded instantly.` },
+        { q: `Can I read ${title} on mobile devices?`, a: `Yes, the PDF format is compatible with smartphones, tablets, and desktop devices.` },
+        { q: `Do I need to register to download the PDF?`, a: `No registration is required. Simply click the download button to get the PDF.` }
+      ]
+    },
+        <p><strong>${title}</strong> by ${author} is one of the most searched PDF books online. Readers looking for a reliable and fast way to download the complete book in PDF format will find this page optimized for speed, clarity, and accessibility.</p>
+        <p>This page provides a full overview of the book, including a detailed summary, author background, and direct PDF download link. The ${title} PDF is compatible with all devices, including mobile phones, tablets, and desktop computers.</p>
+        <p>If you are searching for a safe and easy way to read ${title} online or offline, this SEO-optimized download page is designed to deliver the best reading experience possible.</p>`
     },
     es: {
       h1: `Descargar ${title} PDF`,
@@ -75,7 +100,21 @@ function generate() {
       btn: 'Descargar PDF',
       summary: 'Resumen del Libro',
       about: 'Sobre el Autor',
-      faq: 'Preguntas Frecuentes'
+      faq: 'Preguntas Frecuentes',
+      seoText: `
+        <p><strong>${title}</strong> de ${author} es uno de los libros en PDF más buscados en internet. Esta página está optimizada para quienes desean descargar el libro completo de forma rápida y sencilla.</p>
+        <p>Aquí encontrarás un resumen detallado del libro, información sobre el autor y un enlace directo para descargar ${title} en formato PDF compatible con todos los dispositivos.</p>
+        <p>Si buscas una forma segura y cómoda de leer ${title} en línea o sin conexión, esta página SEO está diseñada para ofrecer la mejor experiencia posible.</p>`,
+      faqs: [
+        { q: `¿${title} es el libro completo en PDF?`, a: `Sí, aquí puedes descargar el libro completo ${title} en formato PDF.` },
+        { q: `¿La descarga del PDF es gratuita?`, a: `Sí, el acceso al PDF es gratuito y directo.` },
+        { q: `¿Puedo leer ${title} en el móvil?`, a: `Sí, el archivo PDF es compatible con teléfonos, tablets y computadoras.` },
+        { q: `¿Es necesario registrarse para descargar?`, a: `No, no es necesario registrarse para descargar el libro.` }
+      ]
+    },
+        <p><strong>${title}</strong> de ${author} es uno de los libros en PDF más buscados en internet. Esta página está optimizada para quienes desean descargar el libro completo de forma rápida y sencilla.</p>
+        <p>Aquí encontrarás un resumen detallado del libro, información sobre el autor y un enlace directo para descargar ${title} en formato PDF compatible con todos los dispositivos.</p>
+        <p>Si buscas una forma segura y cómoda de leer ${title} en línea o sin conexión, esta página SEO está diseñada para ofrecer la mejor experiencia posible.</p>`
     },
     pt: {
       h1: `Baixar ${title} PDF`,
@@ -83,7 +122,21 @@ function generate() {
       btn: 'Baixar PDF',
       summary: 'Resumo do Livro',
       about: 'Sobre o Autor',
-      faq: 'Perguntas Frequentes'
+      faq: 'Perguntas Frequentes',
+      seoText: `
+        <p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados online. Esta página foi criada para facilitar o download rápido e seguro do livro completo.</p>
+        <p>Aqui você encontra um resumo detalhado da obra, informações sobre o autor e um link direto para baixar ${title} em PDF, compatível com todos os dispositivos.</p>
+        <p>Se você procura uma maneira prática de ler ${title} online ou offline, esta página otimizada para SEO oferece a melhor experiência possível.</p>`,
+      faqs: [
+        { q: `${title} é o livro completo em PDF?`, a: `Sim, o PDF contém a versão completa do livro ${title} de ${author}.` },
+        { q: `O download do PDF é gratuito?`, a: `Sim, o acesso ao PDF é gratuito e imediato.` },
+        { q: `Posso ler ${title} no celular?`, a: `Sim, o formato PDF funciona em celulares, tablets e computadores.` },
+        { q: `Preciso me registrar para baixar o PDF?`, a: `Não é necessário cadastro para fazer o download.` }
+      ]
+    },
+        <p><strong>${title}</strong> de ${author} é um dos livros em PDF mais procurados online. Esta página foi criada para facilitar o download rápido e seguro do livro completo.</p>
+        <p>Aqui você encontra um resumo detalhado da obra, informações sobre o autor e um link direto para baixar ${title} em PDF, compatível com todos os dispositivos.</p>
+        <p>Se você procura uma maneira prática de ler ${title} online ou offline, esta página otimizada para SEO oferece a melhor experiência possível.</p>`
     }
   }[lang];
 
@@ -120,26 +173,15 @@ function generate() {
   </section>
 
   <section class="py-16 max-w-4xl mx-auto px-6">
-    <h2 class="text-3xl font-bold mb-4">${T.summary}</h2>
-    <p class="text-slate-600 leading-relaxed">
-      ${title} is a highly acclaimed book written by ${author}. This SEO-optimized page is generated dynamically and designed to rank for long-tail keywords related to PDF book downloads.
-    </p>
-  </section>
-
-  <section class="py-16 bg-slate-50">
-    <div class="max-w-4xl mx-auto px-6">
-      <h2 class="text-3xl font-bold mb-4">${T.about}</h2>
-      <p class="text-slate-600 leading-relaxed">${author} is a renowned author known for compelling storytelling and global readership.</p>
-    </div>
-  </section>
-
-  <section class="py-16 max-w-4xl mx-auto px-6">
     <h2 class="text-3xl font-bold mb-6">${T.faq}</h2>
-    <ul class="space-y-4 text-slate-600">
-      <li><strong>Is this the full book?</strong> Yes, complete PDF version.</li>
-      <li><strong>Is it free?</strong> Yes, instant access.</li>
-      <li><strong>Is it mobile friendly?</strong> Yes, works on all devices.</li>
-    </ul>
+    <div class="space-y-4">
+      ${T.faqs.map(f => `
+        <div class="border rounded-lg p-4">
+          <h3 class="font-semibold">${f.q}</h3>
+          <p class="text-slate-600 mt-2">${f.a}</p>
+        </div>
+      `).join('')}
+    </div>
   </section>
 
   <footer class="py-10 text-center text-sm text-slate-500 border-t">
